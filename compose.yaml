@@ -7,12 +7,10 @@ services:
       - '81:81'
       - '443:443'
     volumes:
-      - ./nginx/nginx.conf.template:/etc/nginx/conf.d/default.template
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./nginx-data/:/data
-      - ./letsencrypt:/etc/letsencrypt
-    command: /bin/bash -c "envsubst < /etc/nginx/conf.d/default.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'" 
-    environment:
-      DOMAIN: 'localhost'
+      - ./certs/:/etc/nginx/certs/
+      - ./build_templates.sh:/build_templates.sh
   vaultwarden:
     image: vaultwarden/server:latest
     ports:
